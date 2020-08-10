@@ -2,8 +2,10 @@ bin
 include
 lib
 lib64
-pyenv.cfg
 
+.vscode
+
+pyvenv.cfg
 # Django #
 *.log
 *.pot
