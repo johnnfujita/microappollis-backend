@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ggg_art/', include('ggg_art.urls', namespace='ggg_art'))    
+    path('ggg_art/', include('ggg_art.urls', namespace='ggg_art')),
+    path('vidas/', include('microaccounts.urls'))
 ]

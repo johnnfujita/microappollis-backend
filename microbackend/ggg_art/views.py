@@ -208,23 +208,3 @@ class ApiRoot(generics.GenericAPIView):
             'techniques': reverse('ggg_art:technique-list', request=request)
         })
 
-
-
-class RegisterTest(generics.GenericAPIView):
-    serializer_class = UserSerializer
-    name = 'register'
-    def post(self, request, *args, **kwargs):
-        
-        return Response({
-            'token': {
-                "access": "aodjfoadjfoadjf34235fa",
-                "refresh": "dfjoiajdfiaipfapfoaopfpoa"
-            }
-        })
-    def get(self, request, *args, **kwargs):
-        return Response({
-            'token': {
-                "access": "aodjfoadjfoadjf34235fa",
-                "refresh": "dfjoiajdfiaipfapfoaopfpoa"
-            }
-        })

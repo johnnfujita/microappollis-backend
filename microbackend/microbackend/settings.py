@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+import csv
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -30,25 +30,41 @@ ALLOWED_HOSTS = ['*','localhost', '127.0.0.1:3000']
 
 # Application definition
 
-INSTALLED_APPS = [
+DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    
 
+    
+]
+
+LOCAL_APPS = [
     'ggg_art.apps.GggArtConfig',
+    'user_profiles.apps.UserProfilesConfig',
+    'generic_vendor_profiles.apps.GenericVendorProfilesConfig',
+    'product_generic_catalog.apps.ProductGenericCatalogConfig',
+    'orders.apps.OrdersConfig',
+    'microaccounts.apps.MicroaccountsConfig'
+]
 
+THIRD_PARTY_APPS = [
     'rest_framework',
-
-    'django_filters',
-
-    'corsheaders',
-
     'rest_framework.authtoken',
+    'django_filters',
+    'corsheaders',
+    'djoser',
     'storages'
 ]
+
+
+INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
+
+AUTH_USER_MODEL = 'microaccounts.Account'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'microbackend.custompagination.LimitOffsetPaginationWithUpperBound',
@@ -58,9 +74,11 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.OrderingFilter',
     ),
+    "DEFAUL_PERMISSION_CLASSES": (
+        "rest_frameword.permissions.IsAuthenticated",
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.SessionAuthentication"
+        "rest_framework.authentication.TokenAuthentication",
     ),
     'DEFAULT_THROTTLE_CLASSES': (
         'rest_framework.throttling.AnonRateThrottle',
@@ -73,6 +91,26 @@ REST_FRAMEWORK = {
         'locations': '15/hour'
     }
     
+}
+
+
+
+DJOSER = {
+    "LOGIN_FIELD": "email",
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+    "SEND_CONFIRMATION_EMAIL": True,
+    "SET_PASSWORD_RETYPE": True,
+    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
+    "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "activate/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True,
+    "SERIALIZERS": {
+        "user_create": "microaccounts.serializers.UserCreateSerializer",
+        "user": "microaccounts.serializers.UserCreateSerializer",
+        "user_delete": "djoser.serializers.UserDeleteSerializer"
+    }
 }
 
 MIDDLEWARE = [
@@ -163,10 +201,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = "microappollis-images"
 
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+EMAIL_BACKEND = "django_ses.SESBackend"
+EMAIL_HOST_USER = "nao-responda@microappollis.com"
+DEFAULT_FROM_EMAIL = "nao-responda@microappollis.com"
+
+with open('../../private_config.csv', 'r') as csv_file:
+        secrets = csv.reader(csv_file, delimiter=",")
+        for row in secrets:
+            AWS_ACCESS_KEY_ID = row[0]
+            AWS_SECRET_ACCESS_KEY = row[1]
+            AWS_STORAGE_BUCKET_NAME = row[2]
+            
+            AWS_S3_FILE_OVERWRITE = False
+            AWS_DEFAULT_ACL = None
+            DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

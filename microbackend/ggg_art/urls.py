@@ -4,7 +4,7 @@ from . import views
 app_name = 'ggg_art'
 
 urlpatterns = [
-    path("accounts/login/", views.RegisterTest.as_view(), name=views.RegisterTest.name),
+    
     path('art-categories/', views.ArtCategoryList.as_view(), name='art-category-list'),
     path('art-categories/<pk>/', views.ArtCategoryDetail.as_view(), name='art-category-detail'),
     path('techniques/', views.TechniqueList.as_view(), name='technique-list'),

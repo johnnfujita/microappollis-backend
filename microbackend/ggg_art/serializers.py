@@ -29,7 +29,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:    
         model = User
         fields = (
-            'password',
             'original_artwork',
             'username',
             'printed_artworks',

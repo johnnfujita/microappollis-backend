@@ -1,8 +1,10 @@
 from django.db import models
-
-from .utilities import artist_directory_path
+from django.conf import settings 
+from .utilities import artist_directory_path, location_directory_path
+from product_generic_catalog.models import ProductGenericClass
 
 class ArtCategory(models.Model):
+    
     name = models.CharField(max_length=255,blank=False, null=False, unique=True)
 
     class Meta:
@@ -39,14 +41,19 @@ class Technique(models.Model):
 
 class Location(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
+    # vendor = models.ForeignKey(VendorDataLink, null=F
+    # 
     #address = models.ForeignKey(Address, on_delete=models.SET_NULL, blank=False, null=True )
     created = models.DateTimeField(auto_now_add=True)
-    
+    image = models.ImageField(blank=True, null=True, upload_to=location_directory_path)
+    manager = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='stores_controlled_by', on_delete=models.CASCADE)
+    profit_share = models.DecimalField(decimal_places=2, max_digits=4, blank=True, default=0.0) 
     def __str__(self):
         return self.name
 
 
 class Artwork(models.Model):
+    parent_product = models.ForeignKey(ProductGenericClass, on_delete=models.CASCADE, related_name="artworks", null=False, blank=False)
     image = models.ImageField(blank=True, null=True, upload_to=artist_directory_path)
     created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255, blank=False, default='')
@@ -72,23 +79,25 @@ class PrintedArtwork(models.Model):
     artwork_base = models.ForeignKey(Artwork, related_name="printed_artworks", on_delete=models.CASCADE, blank=False, null=False)
     price = models.DecimalField(default=0.00, max_digits=12, blank=False, decimal_places=2)
     displayed_at = models.ForeignKey(Location, related_name="printed_artworks", on_delete=models.CASCADE, blank=False, default=1)
-    is_printed = models.BooleanField(default=True)
-    owner = models.ForeignKey('auth.User', related_name='printed_artworks', on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='printed_artworks', on_delete=models.CASCADE)
     available = models.BooleanField(default=False, blank=False)
+    #accessible only to admin
     #company_owner = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
 
 class LimitedArtwork(models.Model):
     artwork_base = models.ForeignKey(Artwork, related_name="limited_artworks", on_delete=models.CASCADE, blank=False, null=False)
     price = models.DecimalField(default=0.00, max_digits=12, blank=False, decimal_places=2)
     displayed_at = models.ForeignKey(Location, related_name="limited_artworks", on_delete=models.CASCADE, blank=False, default=1)
-    owner = models.ForeignKey('auth.User', related_name='limited_artworks', on_delete=models.CASCADE, blank=True, null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='limited_artworks', on_delete=models.CASCADE, blank=True, null=True)
     available = models.BooleanField(default=False, blank=False)
+    #accessible only to admin
     #company_owner = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
 
 class OriginalArtwork(models.Model):
     artwork_base = models.ForeignKey(Artwork, unique=True,  related_name='original', on_delete=models.CASCADE, blank=False, null=False)
     price = models.DecimalField(default=0.00, max_digits=12, blank=False, decimal_places=2)
     displayed_at = models.ForeignKey(Location, related_name="original", on_delete=models.CASCADE, blank=False, default=1)
-    owner = models.ForeignKey('auth.User', related_name='original_artworks', on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='original_artworks', on_delete=models.CASCADE)
     available = models.BooleanField(default=False, blank=False)
+    #accessible only to admin
     #company_owner = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
