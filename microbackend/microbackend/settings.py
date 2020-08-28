@@ -25,7 +25,7 @@ SECRET_KEY = 'd64)w&pu77wd37#e4sziun*ghph+ezq5&u@_7v4mw+(l%2(f0q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','localhost', '127.0.0.1:3000']
+ALLOWED_HOSTS = ["microappollis.com", "*", 'localhost:3000']
 
 
 # Application definition
@@ -108,7 +108,7 @@ DJOSER = {
     "SEND_ACTIVATION_EMAIL": True,
     "SERIALIZERS": {
         "user_create_password_retype": "microaccounts.serializers.UserCreateSerializerNew",
-        "user": "microaccounts.serializers.UserCreateSerializer",
+        "user": "microaccounts.serializers.UserCreateSerializerNew",
         "user_delete": "djoser.serializers.UserDeleteSerializer"
     }
 }
@@ -118,7 +118,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -131,7 +131,7 @@ ROOT_URLCONF = 'microbackend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -199,7 +199,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static')
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 EMAIL_BACKEND = "django_ses.SESBackend"

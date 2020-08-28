@@ -45,15 +45,15 @@ class Location(models.Model):
     # 
     #address = models.ForeignKey(Address, on_delete=models.SET_NULL, blank=False, null=True )
     created = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(blank=True, null=True, upload_to=location_directory_path)
-    manager = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='stores_controlled_by', on_delete=models.CASCADE)
-    profit_share = models.DecimalField(decimal_places=2, max_digits=4, blank=True, default=0.0) 
+    #image = models.ImageField(blank=True, null=True, upload_to=location_directory_path)
+    #manager = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='stores_controlled_by', on_delete=models.CASCADE)
+    #profit_share = models.DecimalField(decimal_places=2, max_digits=4, blank=True, default=0.0) 
     def __str__(self):
         return self.name
 
 
 class Artwork(models.Model):
-    parent_product = models.ForeignKey(ProductGenericClass, on_delete=models.CASCADE, related_name="artworks", null=False, blank=False)
+    #parent_product = models.ForeignKey(ProductGenericClass, on_delete=models.CASCADE, related_name="artworks", null=False, blank=False)
     image = models.ImageField(blank=True, null=True, upload_to=artist_directory_path)
     created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255, blank=False, default='')
@@ -103,3 +103,36 @@ class OriginalArtwork(models.Model):
     #company_owner = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
 
 
+
+class OrderArtwork(models.Model):
+    item                    = models.ForeignKey(OriginalArtwork, on_delete=models.CASCADE)
+    buyer                   = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at              = models.DateTimeField(auto_now_add=True)
+
+
+class CieloOrderResponse(models.Model):
+    proof_of_sale          = models.CharField(max_length=6, null=False, blank=False)
+    tid                    = models.CharField(max_length=20, null=False, blank=False)
+    authorization_code     = models.CharField(max_length=6, null=False, blank=False)
+    payment_id             = models.CharField(max_length=36, null=False, blank=False)
+    status                 = models.CharField(max_length=4, null=False, blank=False)
+    return_code            = models.CharField(max_length=32, null=False, blank=False)
+    return_message          = models.CharField(max_length=512, null=False, blank=False)
+    order_related           = models.OneToOneField(OrderArtwork, on_delete=models.CASCADE)
+
+#{
+#    "MerchantOrderId":"2014111703",
+#    "Payment":{
+#      "Type":"CreditCard", ok
+#      "Amount":15700,
+#      "Installments":1,
+#      "SoftDescriptor":"123456789ABCD",
+#      "CreditCard":{
+#          "CardNumber":"4551870000000183", ok
+#          "Holder":"Teste Holder", ok
+#          "ExpirationDate":"12/2021", ok
+#          "SecurityCode":"123",ok
+#          "Brand":"Visa"ok
+#      }
+#    }
+# }
