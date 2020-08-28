@@ -78,4 +78,6 @@ class LimitedArtworkRelatedToItem(OrderItem):
 class OriginalArtworkRelatedToItem(OrderItem):
     product = models.OneToOneField(OriginalArtwork,
                                 on_delete=models.CASCADE)
-   
+
+class CardHolderData(models.Model):
+    card_holder_name = model.

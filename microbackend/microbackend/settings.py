@@ -80,16 +80,16 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         "rest_framework.authentication.TokenAuthentication",
     ),
-    'DEFAULT_THROTTLE_CLASSES': (
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
-    ),
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '300/hour',
-        'user': '10/hour',
-        'artworks': '20/hour',
-        'locations': '15/hour'
-    }
+    # 'DEFAULT_THROTTLE_CLASSES': (
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle'
+    # ),
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     # 'anon': '300/hour',
+    #     # 'user': '10/hour',
+    #     # 'artworks': '20/hour',
+    #     # 'locations': '15/hour'
+    # }
     
 }
 
@@ -107,7 +107,7 @@ DJOSER = {
     "ACTIVATION_URL": "activate/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": True,
     "SERIALIZERS": {
-        "user_create": "microaccounts.serializers.UserCreateSerializer",
+        "user_create_password_retype": "microaccounts.serializers.UserCreateSerializerNew",
         "user": "microaccounts.serializers.UserCreateSerializer",
         "user_delete": "djoser.serializers.UserDeleteSerializer"
     }

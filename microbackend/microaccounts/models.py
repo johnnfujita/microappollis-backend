@@ -71,11 +71,12 @@ class Account(AbstractBaseUser):
 
 
 
-class IPAddress(models.Model):
-    ip_number = models.GenericIPAddressField(unique=True, null=False, blank=False)
+# class IPAddress(models.Model):
+#     host_accounts = models.ManyToManyField(Account, related_name="known_ips", null=False, blank=False)
+#     ip_number = models.GenericIPAddressField(unique=True, null=False, blank=False)
 
-class PhoneNumber(models.Model):
-    user                        = models.OneToOneField(Account,on_delete=models.CASCADE,  null=False, blank=False)
-    mobile_country_code         = models.CharField(max_length=3, blank=True, default="+55")
-    mobile_regional_code        = models.CharField(max_length=3, blank=True, default="85")
-    mobile_phone                = models.CharField(max_length=9, null=False, blank=False)
+# class PhoneNumber(models.Model):
+#     user                        = models.OneToOneField(Account,on_delete=models.CASCADE,  null=False, blank=False)
+#     mobile_country_code         = models.CharField(max_length=3, blank=True, default="+55")
+#     mobile_regional_code        = models.CharField(max_length=3, blank=True, default="85")
+#     mobile_phone                = models.CharField(max_length=9, null=False, blank=False)

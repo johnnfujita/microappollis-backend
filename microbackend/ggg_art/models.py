@@ -101,3 +101,5 @@ class OriginalArtwork(models.Model):
     available = models.BooleanField(default=False, blank=False)
     #accessible only to admin
     #company_owner = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
+
+
