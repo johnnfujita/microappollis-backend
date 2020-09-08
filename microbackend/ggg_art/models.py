@@ -20,9 +20,10 @@ class ArtCategory(models.Model):
 
 
 class Artist(models.Model):
-    name = models.CharField(max_length=255, blank=False, null=False)
-    origin = models.CharField(max_length=255, blank=True, default='')
-
+    name = models.CharField(max_length=100, blank=False, null=False)
+    origin = models.CharField(max_length=100, blank=True, default='')
+    history = models.CharField(max_length=400, blank=True, default="" )
+    #tags
     class Meta:
         ordering = ('name',)
     def __str__(self):
@@ -65,6 +66,7 @@ class Artwork(models.Model):
     original_technique = models.ForeignKey(Technique, on_delete=models.CASCADE, related_name='artworks', null=False, blank=False)
     height = models.DecimalField(max_digits= 8, decimal_places=3, blank=False, null=False)
     width = models.DecimalField(max_digits=8, decimal_places=3, null=False, blank=False)
+    # tags 
     class Meta:
         ordering = ('artist', 'title')
        
@@ -83,6 +85,11 @@ class PrintedArtwork(models.Model):
     available = models.BooleanField(default=False, blank=False)
     #accessible only to admin
     #company_owner = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
+    class Meta:
+        ordering = ('artwork_base','price', 'owner')
+    def __str__(self):
+        return self.artwork_base
+
 
 class LimitedArtwork(models.Model):
     artwork_base = models.ForeignKey(Artwork, related_name="limited_artworks", on_delete=models.CASCADE, blank=False, null=False)
@@ -93,6 +100,11 @@ class LimitedArtwork(models.Model):
     #accessible only to admin
     #company_owner = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
 
+    class Meta:
+        ordering = ('artwork_base','price', 'owner')
+    def __str__(self):
+        return self.artwork_base
+
 class OriginalArtwork(models.Model):
     artwork_base = models.ForeignKey(Artwork, unique=True,  related_name='original', on_delete=models.CASCADE, blank=False, null=False)
     price = models.DecimalField(default=0.00, max_digits=12, blank=False, decimal_places=2)
@@ -102,6 +114,10 @@ class OriginalArtwork(models.Model):
     #accessible only to admin
     #company_owner = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
 
+    class Meta:
+        ordering = ('artwork_base','price', 'owner')
+    def __str__(self):
+        return self.artwork_base
 
 
 class OrderArtwork(models.Model):
