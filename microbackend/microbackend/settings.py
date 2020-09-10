@@ -97,7 +97,7 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     "LOGIN_FIELD": "email",
-    "USER_CREATE_PASSWORD_RETYPE": True,
+    # "USER_CREATE_PASSWORD_RETYPE": True,
     "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
     "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
     "SEND_CONFIRMATION_EMAIL": True,
@@ -107,7 +107,8 @@ DJOSER = {
     "ACTIVATION_URL": "activate/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": True,
     "SERIALIZERS": {
-        "user_create_password_retype": "microaccounts.serializers.UserCreateSerializerNew",
+        "user_create":  "microaccounts.serializers.UserCreateSerializerNew",
+        # "user_create_password_retype": "microaccounts.serializers.UserCreatePasswordRetypeSerializer",
         "user": "microaccounts.serializers.UserCreateSerializerNew",
         "user_delete": "djoser.serializers.UserDeleteSerializer"
     }

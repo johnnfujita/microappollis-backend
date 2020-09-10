@@ -1,7 +1,7 @@
 from django.db import models
 from microaccounts.models import Account
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 
 # # Create your models here.
 # class ZipCodeLevelAddress(models.Model):
@@ -21,14 +21,14 @@ from django.dispatch import receiver
 #     find_helper = models.CharField(max_length=200, blank=True, default="")
     
 
-# class ConsumerProfile(models.Model):
-#     # This complement Account (UserAuth class) for the consumers
-#     account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="consumer_profile")
-#     name = models.CharField(max_length=120, null=False, blank=False)
-#     #Define the bucket path
-#     user_picture = models.ImageField()
-#     # Every User will have an address to receive deliveries (it can be overwriten at checkout time)
-#     address = models.ForeignKey(NumberLevelAddress, on_delete=models.CASCADE, related_name='consumers')
+class ConsumerProfile(models.Model):
+    # This complement Account (UserAuth class) for the consumers
+    account = models.OneToOneField(Account, on_delete=models.SET_NULL, related_name="consumer_profile", null=True, blank=True)
+    name = models.CharField(max_length=120, null=False, blank=False)
+    # #Define the bucket path
+    # user_picture = models.ImageField()
+    # # Every User will have an address to receive deliveries (it can be overwriten at checkout time)
+    # address = models.ForeignKey(NumberLevelAddress, on_delete=models.CASCADE, related_name='consumers')
 
 # class GovernmentIssuedId(models.Model):
 #     # this is used as interface for different types of possible types of documents that a user may have e.g. cpf or rg

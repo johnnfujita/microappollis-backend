@@ -7,17 +7,17 @@ import uuid
 class UserManager(BaseUserManager):
     def create_user(self, 
                     email,
-                    name, 
-                    cpf,
-                    address_street,
-                    address_number,
-                    complement,
-                    card_holder_name,
-                    card_number,
-                    card_expiration,
-                    card_type,
-                    card_security_code,
-                    card_brand,
+                    # name, 
+                    # cpf,
+                    # address_street,
+                    # address_number,
+                    # complement,
+                    # card_holder_name,
+                    # card_number,
+                    # card_expiration,
+                    # card_type,
+                    # card_security_code,
+                    # card_brand,
                     is_staff=False, 
                     is_admin=False, 
                     is_active=False,
@@ -32,17 +32,17 @@ class UserManager(BaseUserManager):
         user_obj = self.model(
             email = self.normalize_email(email)
         )
-        user_obj.name = name
-        user_obj.cpf = cpf
-        user_obj.address_street = address_street
-        user_obj.address_number = address_number        
-        user_obj.complement = complement
-        user_obj.card_holder_name = card_holder_name
-        user_obj.card_number = card_number
-        user_obj.card_expiration = card_expiration
-        user_obj.card_type = card_type
-        user_obj.card_security_code = card_security_code
-        user_obj.card_bramd = card_brand
+        # user_obj.name = name
+        # user_obj.cpf = cpf
+        # user_obj.address_street = address_street
+        # user_obj.address_number = address_number        
+        # user_obj.complement = complement
+        # user_obj.card_holder_name = card_holder_name
+        # user_obj.card_number = card_number
+        # user_obj.card_expiration = card_expiration
+        # user_obj.card_type = card_type
+        # user_obj.card_security_code = card_security_code
+        # user_obj.card_bramd = card_brand
         user_obj.set_password(password)
         user_obj.is_staff = is_staff
         user_obj.is_superuser = is_superuser
@@ -85,20 +85,23 @@ class Account(AbstractBaseUser, PermissionsMixin):
     timestamp                   = models.DateTimeField(auto_now_add=True)
     secret_key                  = models.UUIDField(default=uuid.uuid4)
     
-    #profile data
-    name                        = models.CharField(max_length=100, null=False, blank=False)
-    cpf                         = models.CharField(max_length=11, null=False, blank=False)
-    address_street                     = models.CharField(max_length=50, null=False, blank=False)
-    address_number              = models.CharField(max_length=5, blank=False, null=False)
-    complement                  = models.CharField(max_length=15, blank=True, default="")
+    # #profile data
+    # name                        = models.CharField(max_length=100, null=False, blank=False)
+    # cpf                         = models.CharField(max_length=11, null=False, blank=False)
+    # address_street                     = models.CharField(max_length=50, null=False, blank=False)
+    # address_number              = models.CharField(max_length=5, blank=False, null=False)
+    # complement                  = models.CharField(max_length=15, blank=True, default="")
 
     # Payment
-    card_holder_name            = models.CharField(max_length=100, null=False, blank=False)
-    card_number                 = models.CharField(max_length=16, null=False, blank=False)
-    card_expiration                  = models.CharField(max_length=7, null=False, blank=False)
-    card_type                   = models.CharField(max_length=100, null=False, blank=False)
-    card_security_code               = models.CharField(max_length=3, null=False, blank=False)
-    card_brand                       = models.CharField(max_length=12, null=False, blank=False)
+    # card_holder_name            = models.CharField(max_length=100, null=False, blank=False)
+    # card_number                 = models.CharField(max_length=16, null=False, blank=False)
+    # card_expiration                  = models.CharField(max_length=7, null=False, blank=False)
+    # card_type                   = models.CharField(max_length=100, null=False, blank=False)
+    # card_security_code               = models.CharField(max_length=3, null=False, blank=False)
+    # card_brand                       = models.CharField(max_length=12, null=False, blank=False)
+
+
+
 #     #{
 #    "MerchantOrderId":"2014111703",
 #    "Payment":{

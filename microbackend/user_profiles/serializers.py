@@ -1,13 +1,15 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from .models import ConsumerProfile
 
 
 
-class UserSerializer(serializers.ModelSerializer):
-    
+class ConsumerProfileSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     class Meta:    
-        model = User
+        model = ConsumerProfile
         fields = (
-            'username',
-            'password'
+            'id',
+            'name', 
+            'account'
         )
+        read_only_fields = ("account", )
