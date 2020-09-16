@@ -54,7 +54,7 @@ class Location(models.Model):
 
 
 class Artwork(models.Model):
-    #parent_product = models.ForeignKey(ProductGenericClass, on_delete=models.CASCADE, related_name="artworks", null=False, blank=False)
+    # parent_product = models.ForeignKey(ProductGenericClass, on_delete=models.CASCADE, related_name="artworks", null=False, blank=False)
     image = models.ImageField(blank=True, null=True, upload_to=artist_directory_path)
     created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255, blank=False, default='')

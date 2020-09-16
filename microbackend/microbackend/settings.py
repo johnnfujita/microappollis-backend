@@ -49,7 +49,8 @@ LOCAL_APPS = [
     'generic_vendor_profiles.apps.GenericVendorProfilesConfig',
     'product_generic_catalog.apps.ProductGenericCatalogConfig',
     'orders.apps.OrdersConfig',
-    'microaccounts.apps.MicroaccountsConfig'
+    'microaccounts.apps.MicroaccountsConfig',
+    'microaddressbook.apps.MicroaddressbookConfig'
 ]
 
 THIRD_PARTY_APPS = [
